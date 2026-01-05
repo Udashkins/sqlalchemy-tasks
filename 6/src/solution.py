@@ -16,5 +16,16 @@ Base.metadata.create_all(engine)
 
 
 # BEGIN (write your solution here)
-
+def get_movies_with_directors(session):
+    """
+    Возвращает список всех фильмов с их режиссерами.
+    Использует один оптимизированный запрос с joinedload.
+    """
+    query = (
+        session.query(Movie)
+        .options(joinedload(Movie.director))  # Загружаем связанных режиссеров
+        .order_by(Movie.title)  # Сортируем по названию фильма
+    )
+    
+    return query.all()
 # END

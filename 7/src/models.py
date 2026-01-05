@@ -14,7 +14,11 @@ class Director(Base):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(64), unique=True)
     # BEGIN (write your solution here)
-
+    movies: Mapped[list["Movie"]] = relationship(
+        "Movie", 
+        back_populates="director",
+        cascade="all, delete-orphan"
+    )
     # END
 
 

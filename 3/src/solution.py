@@ -26,5 +26,48 @@ Base.metadata.create_all(engine)
 
 
 # BEGIN (write your solution here)
+def add_books(engine):
+    """
+    Добавляет две книги в таблицу books используя SQLAlchemy сессии.
+    """
+    # Создаем фабрику сессий
+    Session = sessionmaker(bind=engine)
+    
+    # Создаем сессию
+    session = Session()
+    
+    try:
+        # Создаем объекты книг
+        book1 = Book(
+            title='To Kill a Mockingbird',
+            author='Harper Lee',
+            published_year=1960
+        )
+        
+        book2 = Book(
+            title='1984',
+            author='George Orwell',
+            published_year=1949
+        )
+        
+        # Добавляем книги в сессию
+        session.add(book1)
+        session.add(book2)
+        
+        # Фиксируем изменения (commit)
+        session.commit()
+        
+    except Exception as e:
+        # В случае ошибки откатываем изменения
+        session.rollback()
+        raise e
+        
+    finally:
+        # Всегда закрываем сессию
+        session.close()
 
+
+# Пример вызова функции
+if __name__ == "__main__":
+    add_books(engine)
 # END
